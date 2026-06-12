@@ -122,7 +122,13 @@ document.getElementById("title").textContent=l.title;
 document.getElementById("text").textContent=l.text;
 
 const img=document.getElementById("photo");
-if(l.image){img.src=l.image;img.style.display="block"}else{img.style.display="none"}
+if(l.image){
+img.src=l.image;
+img.style.display="block";
+}else{
+img.src="meme.jpg.gif";
+img.style.display="block";
+}
 
 let html="";
 if(l.map)html+=`<a class="map" target="_blank" href="${l.map}">📍 Отвори картата</a>`;
