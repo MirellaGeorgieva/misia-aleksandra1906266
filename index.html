@@ -5,113 +5,52 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Мисия Александра 25</title>
 <style>
-body{
-  margin:0;
-  min-height:100vh;
-  font-family:Arial,sans-serif;
-  background:linear-gradient(135deg,#ffd1e8,#d9f3ff);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  padding:20px;
-}
-.card{
-  max-width:650px;
-  width:100%;
-  background:white;
-  border-radius:28px;
-  padding:28px;
-  box-shadow:0 20px 60px #0002;
-  text-align:center;
-}
-.badge{
-  display:inline-block;
-  background:#ff4fa3;
-  color:white;
-  padding:10px 18px;
-  border-radius:999px;
-  font-weight:bold;
-}
-img{
-  max-width:100%;
-  border-radius:20px;
-  margin:15px 0;
-}
-.text{
-  white-space:pre-line;
-  font-size:18px;
-  line-height:1.5;
-}
-input{
-  padding:14px;
-  border-radius:14px;
-  border:2px solid #ffb3d8;
-  width:90%;
-  font-size:16px;
-}
-button,a{
-  display:inline-block;
-  margin:10px;
-  padding:14px 22px;
-  border:none;
-  border-radius:999px;
-  background:#ff4fa3;
-  color:white;
-  font-weight:bold;
-  text-decoration:none;
-  cursor:pointer;
-}
-.map{background:#7c5cff;}
-.music{background:#ffd54f;color:#333;}
-.msg{font-weight:bold;color:#ff2f87;}
-.confetti{
-  position:fixed;
-  width:10px;
-  height:10px;
-  top:-10px;
-  animation:fall 3s linear forwards;
-}
-@keyframes fall{
-  to{transform:translateY(110vh) rotate(720deg);}
-}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:Arial,sans-serif;background:linear-gradient(135deg,#ffd1e8,#d9f3ff);display:flex;justify-content:center;align-items:center;padding:20px}
+.card{max-width:700px;width:100%;background:white;border-radius:25px;padding:25px;box-shadow:0 20px 50px #0002;text-align:center}
+.badge{background:#ff4fa3;color:white;padding:10px 18px;border-radius:999px;font-weight:bold;display:inline-block}
+.progress{height:10px;background:#ffe3f0;border-radius:99px;overflow:hidden;margin:18px 0}
+#bar{height:100%;background:#ff4fa3;width:0}
+img{max-width:100%;max-height:360px;object-fit:cover;border-radius:20px;margin:15px 0}
+.text{white-space:pre-line;font-size:18px;line-height:1.5;color:#333}
+input{padding:14px;border-radius:14px;border:2px solid #ffb3d8;width:90%;font-size:16px;margin-top:15px}
+button,a{display:inline-block;margin:10px 6px;padding:14px 22px;border:none;border-radius:999px;background:#ff4fa3;color:white;font-weight:bold;text-decoration:none;cursor:pointer;font-size:15px}
+.map{background:#7c5cff}.music{background:#ffd54f;color:#333}.reset{background:#333}
+.msg{font-weight:bold;color:#ff2f87;min-height:24px}
+.hint{font-size:13px;color:#666}
+.confetti{position:fixed;width:10px;height:14px;top:-20px;animation:fall 3s linear forwards;z-index:9999}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
 </style>
 </head>
 <body>
-
 <div class="card">
-  <div class="badge" id="badge"></div>
-  <button class="music" onclick="music()">🎵 Музика</button>
-  <h1 id="title"></h1>
-  <img id="photo" style="display:none">
-  <div class="text" id="text"></div>
-  <div id="actions"></div>
-  <p class="msg" id="msg"></p>
+<div><span class="badge" id="badge"></span></div>
+<button class="music" onclick="music()">🎵 Музика</button>
+<button class="reset" onclick="resetGame()">↺ Начало</button>
+<div class="progress"><div id="bar"></div></div>
+<h1 id="title"></h1>
+<img id="photo" style="display:none">
+<div class="text" id="text"></div>
+<div id="actions"></div>
+<p class="msg" id="msg"></p>
 </div>
 
 <script>
-const levels = [
-{
-title:"Ниво 1",
-type:"photo",
-map:"https://www.google.com/maps/search/?api=1&query=ул.+Пенчо+Славейков",
-text:`📍 Старт: ул. Пенчо Славейков
+const levels=[
+{title:"Ниво 1",type:"photo",map:"https://www.google.com/maps/search/?api=1&query=ул.+Пенчо+Славейков",text:`📍 Старт: ул. Пенчо Славейков
 
 ВАЖНО! ПАЗИ ВСИЧКИ ПЛИКОВЕ.
 
-📸 ВСИЧКИ СНИМКИ ОТ МИСИЯТА ИЗПРАЩАЙ ТУК И В ГРУПАТА
+📸 ВСИЧКИ СНИМКИ ОТ МИСИЯТА ИЗПРАЩАЙ В ГРУПАТА:
 "НАСРАНИ ОТ ЯДЕНЕ"
 
 Първата следа се крие там,
 където ароматът на кафе събужда града,
 а разговорите никога не свършват.
 
-Когато стигнеш до мястото — изпрати снимка пред него.`
-},
-{
-title:"Ниво 2",
-type:"photo",
-image:"images/coffee.png",
-text:`Отлична работа, агент Александра.
+Когато стигнеш до мястото — изпрати снимка пред него.`},
+
+{title:"Ниво 2",type:"photo",image:"coffee.png",text:`Отлична работа, агент Александра.
 Събра първото доказателство.
 
 Следващото място е там,
@@ -119,20 +58,16 @@ text:`Отлична работа, агент Александра.
 
 Там те чака плик.
 
-Когато стигнеш — изпрати селфи.`
-},
-{
-title:"Ниво 3",
-type:"free",
-map:"https://www.google.com/maps/search/?api=1&query=ул.+Любен+Каравелов",
-text:`🗺 Отвори картата.
+Когато стигнеш — изпрати селфи.`},
+
+{title:"Ниво 3",type:"free",map:"https://www.google.com/maps/search/?api=1&query=ул.+Любен+Каравелов",text:`🗺 Отвори картата.
 
 Следващото доказателство е в приблизителна зона около ул. Любен Каравелов.
 
 Къде ходеше, когато казваше, че играеш карти в Криска?
 
-Там те чака скрит плик.`
-},
+Там те чака скрит плик.`},
+
 {title:"Ниво 4",type:"answer",text:"В плика има въпрос:\n\nКакво е презимето на Борко?",answers:["миленов"]},
 {title:"Ниво 5",type:"answer",text:"Коя година ходихте в Русе с Петрова?",answers:["2021","2021г","2021 г"]},
 {title:"Ниво 6",type:"free",text:"Намери още един плик.\n\nПодсказка: намира се в Борко."},
@@ -141,11 +76,11 @@ text:`🗺 Отвори картата.
 {title:"Ниво 9",type:"answer",text:"На коя дата е родена Йони Георгиева?",answers:["26.10.2002","26/10/2002","26 10 2002"]},
 {title:"Ниво 10",type:"photo",text:"Мини мисия:\n\nИзпрати ни снимка на най-смешната физиономия."},
 {title:"Ниво 11",type:"photo",text:"Намери куче.\n\nИли поне снимка на куче.\n\nИзпрати снимката, за да продължиш."},
-{title:"Ниво 12",type:"text",image:"images/birthday-girl.jpg",text:"Напиши една дума, която описва последните 25 години."},
+{title:"Ниво 12",type:"text",image:"birthday-girl.jpg",text:"Напиши една дума, която описва последните 25 години."},
 {title:"Ниво 13",type:"answer",text:"Какъв е номерът на колата на Мони?",answers:["вт4920мв","вт 4920 мв","vt4920mv","vt 4920 mv"]},
 {title:"Ниво 14",type:"answer",text:"Познай кой е написал:\n\n„Мара е Къно, виждам ти зърната“",answers:["георги","гого"]},
 {title:"Ниво 15",type:"answer",text:"Кой казва – „Каква е тази татуировка? Ти нормална ли си? Мн грозна.“",answers:["митко"]},
-{
+
 {title:"Ниво 16",type:"free",map:"https://www.google.com/maps/search/?api=1&query=улица+Г.+Столетов",text:`📍 Отвори картата.
 
 Отиди на ул. Г. Столетов.
@@ -153,110 +88,117 @@ text:`🗺 Отвори картата.
 Там ще намериш плик.
 
 След като го намериш, продължи.`},
-  
+
 {title:"Ниво 17",type:"photo",text:"Намери предмет, започващ с буквата А.\n\nПрикачи снимка и продължи."},
 {title:"Ниво 18",type:"photo",text:"Изпрати снимка на любимото си място в Стражица."},
 {title:"Ниво 19",type:"free",text:"Кажи на случаен човек:\n\n“Днес съм на 25!”\n\nПосле продължи към следващото ниво."},
 {title:"Ниво 20",type:"answer",text:"На коя дата се гаджосахте с Борко?",answers:["03.12.2025","3.12.2025","03/12/2025","3/12/2025"]},
 {title:"Ниво 21",type:"answer",text:"Коя зодия е Ива?",answers:["водолей"]},
 {title:"Ниво 22",type:"photo",text:"Добре, де, спираме да те разкарваме.\n\nОтиди там, където Криска работи.\n\nТам те чака твоят подарък и последният плик.\n\nКогато ги откриеш, изпрати снимка."},
-{
-title:"Ниво 23",
-type:"answer",
-text:`ХА ХА. Сори, за това имаме пари.
+
+{title:"Ниво 23",type:"answer",text:`ХА ХА. Сори, за това имаме пари.
 
 Кои са петте момичета, които организираха това приключение?
-Започни с най-голямата до най-малката.`,
-answers:[
-"кристинаиванеламиреллайоаннайоана",
-"кристина,иванела,мирелла,йоанна,йоана"
-]
-},
-{
-title:"Ниво 24",
-type:"answer",
-image:"images/friends.jpg",
-text:`🎉 Финал
+Започни с най-голямата до най-малката.`,answers:["кристинаиванеламиреллайоаннайоана","кристина,иванела,мирелла,йоанна,йоана","кристина иванела мирелла йоанна йоана"]},
+
+{title:"Ниво 24",type:"answer",image:"friends.jpg",text:`🎉 Финал
 
 Честит 25-ти рожден ден, Александра!
 
-Разшифровай буквите от 6-те плика и въведи последната дестинация.`,
-answers:["базата","bazata"],
-final:true
-}
+Разшифровай буквите от 6-те плика и въведи последната дестинация.`,answers:["базата","bazata"],final:true}
 ];
 
-let current = Number(localStorage.getItem("alex-level") || 0);
+let current=Number(localStorage.getItem("alex-level")||0);
 
-function norm(x){
- return (x||"").toLowerCase().replaceAll("ѝ","и").replace(/[\s.,!?'"„“:;()-]/g,"").trim();
-}
+function norm(x){return(x||"").toLowerCase().replaceAll("ѝ","и").replace(/[\s.,!?'"„“:;()-]/g,"").trim()}
 
 function show(){
- const l = levels[current];
- document.getElementById("msg").textContent="";
- document.getElementById("badge").textContent = current < levels.length ? `${l.title} / ${levels.length}` : "Финал";
- document.getElementById("title").textContent = current < levels.length ? l.title : "Край ❤️";
- document.getElementById("text").textContent = current < levels.length ? l.text : "Мисията е изпълнена!";
- const img = document.getElementById("photo");
- img.style.display = l && l.image ? "block" : "none";
- if(l && l.image) img.src = l.image;
+if(current>=levels.length)current=levels.length-1;
+const l=levels[current];
+document.getElementById("msg").textContent="";
+document.getElementById("badge").textContent=`${l.title} / ${levels.length}`;
+document.getElementById("bar").style.width=`${((current+1)/levels.length)*100}%`;
+document.getElementById("title").textContent=l.title;
+document.getElementById("text").textContent=l.text;
 
- let html = "";
- if(l.map) html += `<a class="map" target="_blank" href="${l.map}">📍 Отвори картата</a>`;
- if(l.type === "answer"){
-   html += `<br><input id="ans" placeholder="Въведи отговор..."><br><button onclick="check()">Провери</button>`;
- } else if(l.type === "photo"){
-   html += `<br><input type="file" accept="image/*"><br><button onclick="next()">Продължи ✅</button>`;
- } else if(l.type === "text"){
-   html += `<br><input id="word" placeholder="Напиши дума..."><br><button onclick="next()">Продължи</button>`;
- } else {
-   html += `<br><button onclick="next()">Продължи ➜</button>`;
- }
- document.getElementById("actions").innerHTML = html;
+const img=document.getElementById("photo");
+if(l.image){img.src=l.image;img.style.display="block"}else{img.style.display="none"}
+
+let html="";
+if(l.map)html+=`<a class="map" target="_blank" href="${l.map}">📍 Отвори картата</a>`;
+
+if(l.type==="answer"){
+html+=`<br><input id="ans" type="text" placeholder="Въведи отговор..."><br><button onclick="check()">Провери</button>`;
+}else if(l.type==="photo"){
+html+=`<br><input type="file" accept="image/*"><p class="hint">Снимката се избира само за отключване. Изпрати я и в групата.</p><button onclick="next()">Продължи ✅</button>`;
+}else if(l.type==="text"){
+html+=`<br><input id="word" type="text" placeholder="Напиши дума..."><br><button onclick="freeTextNext()">Продължи</button>`;
+}else{
+html+=`<br><button onclick="next()">Продължи ➜</button>`;
+}
+document.getElementById("actions").innerHTML=html;
 }
 
 function check(){
- const l = levels[current];
- const val = norm(document.getElementById("ans").value);
- const ok = l.answers.some(a => norm(a) === val);
- if(!ok){
-   document.getElementById("msg").textContent = "Грешен отговор 😈 Опитай пак!";
-   return;
- }
- if(l.final){
-   confetti();
-   document.getElementById("title").textContent = "🎉 Честит рожден ден!";
-   document.getElementById("text").textContent = "Правилен отговор: БАЗАТА!\n\nТичай към последната дестинация.
-   document.getElementById("actions").innerHTML = "";
-   localStorage.setItem("alex-level", levels.length);
- } else next();
+const l=levels[current];
+const ans=document.getElementById("ans");
+const val=norm(ans?ans.value:"");
+const ok=l.answers.some(a=>norm(a)===val);
+
+if(!ok){
+document.getElementById("msg").textContent="Опитай отново.";
+return;
+}
+
+if(l.final){
+confetti();
+document.getElementById("title").textContent="🎉 Честит рожден ден!";
+document.getElementById("text").textContent="Правилен отговор: БАЗАТА!\n\nТичай към последната дестинация.";
+document.getElementById("actions").innerHTML="";
+document.getElementById("bar").style.width="100%";
+localStorage.setItem("alex-level",levels.length);
+}else{
+next();
+}
+}
+
+function freeTextNext(){
+const word=document.getElementById("word").value.trim();
+if(word.length<2){
+document.getElementById("msg").textContent="Напиши поне една дума 😄";
+return;
+}
+next();
 }
 
 function next(){
- confetti();
- current++;
- localStorage.setItem("alex-level", current);
- if(current >= levels.length){
-   current = levels.length - 1;
- }
- show();
+confetti();
+current++;
+localStorage.setItem("alex-level",current);
+show();
+}
+
+function resetGame(){
+localStorage.removeItem("alex-level");
+current=0;
+show();
 }
 
 function music(){
- window.open("https://www.youtube.com/results?search_query=Billie+Eilish+bad+guy","_blank");
+window.open("https://www.youtube.com/results?search_query=Billie+Eilish+bad+guy","_blank");
 }
 
 function confetti(){
- const colors=["#ff4fa3","#7c5cff","#00c2ff","#ffe36e","#6effa8"];
- for(let i=0;i<80;i++){
-  const d=document.createElement("div");
-  d.className="confetti";
-  d.style.left=Math.random()*100+"vw";
-  d.style.background=colors[Math.floor(Math.random()*colors.length)];
-  document.body.appendChild(d);
-  setTimeout(()=>d.remove(),3000);
- }
+const colors=["#ff4fa3","#7c5cff","#00c2ff","#ffe36e","#6effa8"];
+for(let i=0;i<80;i++){
+const d=document.createElement("div");
+d.className="confetti";
+d.style.left=Math.random()*100+"vw";
+d.style.background=colors[Math.floor(Math.random()*colors.length)];
+d.style.transform=`rotate(${Math.random()*360}deg)`;
+document.body.appendChild(d);
+setTimeout(()=>d.remove(),3000);
+}
 }
 
 show();
