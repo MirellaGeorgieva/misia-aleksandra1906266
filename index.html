@@ -17,7 +17,7 @@ const levels=[
 
 ВАЖНО! ПАЗИ ВСИЧКИ ПЛИКОВЕ.
 
-📸 ВСИЧКИ СНИМКИ ОТ МИСИЯТА ИЗПРАЩАЙ В ГРУПАТА:
+📸 ВСИЧКИ СНИМКИ ОТ МИСИЯТА ИЗПРАЩАЙ ТУК, ЗА ДА ПРОДЪЛЖИШ НАПРЕД И В ГРУПАТА - НАСРАНИ ОТ ЯДЕНЕ, СЪЩЕВРЕМЕННО:
 "НАСРАНИ ОТ ЯДЕНЕ"
 
 Първата следа се крие там,
@@ -55,7 +55,11 @@ const levels=[
 {title:"Ниво 15",type:"answer",text:"Кой казва – „Каква е тази татуировка? Ти нормална ли си? Мн грозна.“",answers:["митко"]},
 {title:"Ниво 16",type:"free",map:"https://www.google.com/maps/search/?api=1&query=улица+Г.+Столетов",text:`📍 Отвори картата.
 
-Отиди до мястото, което познаваш добре от семейството си.
+Отиди на ул. Г. Столетов.
+
+Там ще намериш плик.
+
+След като го намериш, продължи.`},
 
 Там те чака следващият плик.
 
@@ -79,7 +83,7 @@ const levels=[
 let current=Number(localStorage.getItem("alex-level")||0);
 function norm(x){return(x||"").toLowerCase().replaceAll("ѝ","и").replace(/[\s.,!?'"„“:;()-]/g,"").trim()}
 function show(){if(current>=levels.length)current=levels.length-1;const l=levels[current];document.getElementById("msg").textContent="";document.getElementById("badge").textContent=`${l.title} / ${levels.length}`;document.getElementById("bar").style.width=`${((current+1)/levels.length)*100}%`;document.getElementById("title").textContent=l.title;document.getElementById("text").textContent=l.text;const img=document.getElementById("photo");img.style.display=l.image?"block":"none";if(l.image)img.src=l.image;let html="";if(l.map)html+=`<a class="map" target="_blank" href="${l.map}">📍 Отвори картата</a>`;if(l.type==="answer"){html+=`<br><input id="ans" type="text" placeholder="Въведи отговор..."><br><button onclick="check()">Провери</button>`}else if(l.type==="photo"){html+=`<br><input type="file" accept="image/*"><p class="hint">Снимката се избира само за отключване. Изпрати я и в групата.</p><button onclick="next()">Продължи ✅</button>`}else if(l.type==="text"){html+=`<br><input id="word" type="text" placeholder="Напиши дума..."><br><button onclick="freeTextNext()">Продължи</button>`}else{html+=`<br><button onclick="next()">Продължи ➜</button>`}document.getElementById("actions").innerHTML=html}
-function check(){const l=levels[current];const ans=document.getElementById("ans");const val=norm(ans?ans.value:"");const ok=l.answers.some(a=>norm(a)===val);if(!ok){document.getElementById("msg").textContent="Грешен отговор 😈 Опитай пак!";return}if(l.final){confetti();document.getElementById("title").textContent="🎉 Честит рожден ден!";document.getElementById("text").textContent="Правилен отговор: БАЗАТА!\n\nТичай към последната дестинация.\nНие те чакаме с подаръци, торта и много любов ❤️";document.getElementById("actions").innerHTML="";document.getElementById("bar").style.width="100%";localStorage.setItem("alex-level",levels.length)}else next()}
+function check(){const l=levels[current];const ans=document.getElementById("ans");const val=norm(ans?ans.value:"");const ok=l.answers.some(a=>norm(a)===val);if(!ok){document.getElementById("msg").textContent="Грешен отговор 😈 Опитай пак!";return}if(l.final){confetti();document.getElementById("title").textContent="🎉 Честит рожден ден!";document.getElementById("text").textContent="Правилен отговор: БАЗАТА!\n\nТичай към последната дестинация.\n";document.getElementById("actions").innerHTML="";document.getElementById("bar").style.width="100%";localStorage.setItem("alex-level",levels.length)}else next()}
 function freeTextNext(){const word=document.getElementById("word").value.trim();if(word.length<2){document.getElementById("msg").textContent="Напиши поне една дума 😄";return}next()}
 function next(){confetti();current++;localStorage.setItem("alex-level",current);show()}
 function resetGame(){localStorage.removeItem("alex-level");current=0;show()}
