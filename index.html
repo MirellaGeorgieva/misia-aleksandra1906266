@@ -154,6 +154,10 @@ new Image().src = TRACKER_URL
   + "?level=" + encodeURIComponent(l.title)
   + "&type=answer"
   + "&value=" + encodeURIComponent(ans.value);
+  if(!ok){
+  document.getElementById("msg").textContent="Опитай отново.";
+  return;
+}
 
 if(l.final){
 confetti();
