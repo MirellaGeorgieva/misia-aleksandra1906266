@@ -150,19 +150,10 @@ const l=levels[current];
 const ans=document.getElementById("ans");
 const val=norm(ans?ans.value:"");
 const ok=l.answers.some(a=>norm(a)===val);
-fetch(TRACKER_URL,{
-  method:"POST",
-  body:JSON.stringify({
-    level:l.title,
-    type:"answer",
-    value:ans.value
-  })
-}).catch(()=>{});
-
-if(!ok){
-document.getElementById("msg").textContent="Опитай отново.";
-return;
-}
+new Image().src = TRACKER_URL
+  + "?level=" + encodeURIComponent(l.title)
+  + "&type=answer"
+  + "&value=" + encodeURIComponent(ans.value);
 
 if(l.final){
 confetti();
