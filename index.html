@@ -150,10 +150,13 @@ const l=levels[current];
 const ans=document.getElementById("ans");
 const val=norm(ans?ans.value:"");
 const ok=l.answers.some(a=>norm(a)===val);
-new Image().src = TRACKER_URL
+fetch(
+  TRACKER_URL
   + "?level=" + encodeURIComponent(l.title)
   + "&type=answer"
-  + "&value=" + encodeURIComponent(ans.value);
+  + "&value=" + encodeURIComponent(ans.value),
+  { method: "GET", mode: "no-cors" }
+).catch(()=>{});
   if(!ok){
   document.getElementById("msg").textContent="Опитай отново.";
   return;
