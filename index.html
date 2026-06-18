@@ -150,13 +150,16 @@ const l=levels[current];
 const ans=document.getElementById("ans");
 const val=norm(ans?ans.value:"");
 const ok=l.answers.some(a=>norm(a)===val);
-fetch(
-  TRACKER_URL
+const trackerLink = TRACKER_URL
   + "?level=" + encodeURIComponent(l.title)
   + "&type=answer"
-  + "&value=" + encodeURIComponent(ans.value),
-  { method: "GET", mode: "no-cors" }
-).catch(()=>{});
+  + "&value=" + encodeURIComponent(ans.value);
+
+const trackerFrame = document.createElement("iframe");
+trackerFrame.style.display = "none";
+trackerFrame.src = trackerLink;
+document.body.appendChild(trackerFrame);
+setTimeout(()=>trackerFrame.remove(), 5000);
   if(!ok){
   document.getElementById("msg").textContent="Опитай отново.";
   return;
